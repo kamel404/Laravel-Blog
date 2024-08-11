@@ -2,29 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
     public function index(){
 
-        // select * from posts
-        // id, title, created_at, description, updated at
+        // Select * from posts
+        $postsFromDB = Post::all(); // Collection objects
+        return view('posts.index' , ['posts' => $postsFromDB]);
 
-        $allPosts = [
-            ['id' => 1 , 'title' => 'PHP' , 'posted_by' => 'Kamel' , 'created_at' => '2024-07-07'],
-            ['id' => 2 , 'title' => 'Java' , 'posted_by' => 'Mahdi' , 'created_at' => '2024-03-02'],
-            ['id' => 3 , 'title' => 'Laravel' , 'posted_by' => 'Ahmad' , 'created_at' => '2024-07-03'],
-            ['id' => 4 , 'title' => 'Python' , 'posted_by' => 'Ali' , 'created_at' => '2024-07-07'],
-        ];
-        return view('posts.index' , ['posts' => $allPosts]);
     }
 
-    public function show($postId){
-        $singlePost = [
-            'id' => 1 , 'title' => 'PHP' , 'description' => 'PHP is cool language' , 'posted_by' => 'Kamel' , 'email' => 'kamelfaour@gmail.com',  'created_at' => '2024-07-07',
-        ];
-        return view('posts.show', ['post' => $singlePost]);
+    public function show(Post $post) //Type hinting
+    {
+//        dd($post);
+        // Select * from posts where id = $postId
+//        $singlePostFromDB = Post::findOrFail($postId); // Look At Routes, you can check that show method takes PostID
+        // FindOrFail means , if you did not find the post of the id searched, return error not found 404 page
+        return view('posts.show', ['post' => $post]);
+        // Here we used route model binding to write less code, so we declare an object of type Post class in the params then use it and it is already handling page NOt found
     }
 
     public function create(){
