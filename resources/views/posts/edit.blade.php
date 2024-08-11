@@ -2,13 +2,14 @@
 @extends('layouts.app')
 
 @section('title')
-    Create
+    Edit
 @endsection
 
 @section('content')
 
-    <form method="POST" action="{{route('posts.store')}}">
+    <form method="POST" action="{{route('posts.update' , 1)}}">
         @csrf
+        @method('PUT')
         <div class="mb-3">
             <label class="form-label">Title</label>
             <input name="title" type="text" class="form-control">
@@ -26,7 +27,7 @@
             </select>
         </div>
 
-        <button class="btn btn-success">Submit</button>
+        <button class="btn btn-primary">Update</button>
     </form>
 
 @endsection
