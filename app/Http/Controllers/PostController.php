@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -15,6 +16,7 @@ class PostController extends Controller
 
     }
 
+
     public function show(Post $post) //Type hinting
     {
 //        dd($post);
@@ -25,32 +27,32 @@ class PostController extends Controller
         // Here we used route model binding to write less code, so we declare an object of type Post class in the params then use it and it is already handling page NOt found
     }
 
+
     public function create(){
 
-        return view('posts.create');
+        // Select * from posts;
+        $users = User::all();
+
+        return view('posts.create', ['users' => $users]);
 
     }
+
 
     public function store(){
 
 //        1- get the user data
 
-//        $request = \request();
-//        dd($request->title , $request-> all());
+        $title = request()-> title;
+        $description = request()-> description;
+        $postCreator = request() -> post_creator;
 
-        //First Way
-        $data = \request()->all();
+//        2- store the submitted data in database
 
-        //Second Way
-        $title = \request()-> title;
-        $description = \request()-> description;
-        $postCreator = \request() -> post_creator;
+        Post::create([
+            'title' => $title,
+            'description' => $description,
+        ]);
 
-//        dd($data , $title , $description , $postCreator);
-
-
-//        2- store the user data in database
-        // will be done Later!!
 
 //        3- redirect to posts.index
         return to_route('posts.index') ;
@@ -58,7 +60,9 @@ class PostController extends Controller
 
 
     public function edit(){
-        return view('posts.edit') ;
+        $users = User::all();
+
+        return view('posts.edit' , ['users' => $users]) ;
     }
 
     public function update(){
