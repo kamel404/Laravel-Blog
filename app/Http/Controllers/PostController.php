@@ -65,7 +65,6 @@ class PostController extends Controller
     }
 
 
-
     public function update($postId){
 
 //        1- get the user data
@@ -87,10 +86,12 @@ class PostController extends Controller
         return to_route('posts.show', $postId) ;
     }
 
-    public function destroy(){
+
+    public function destroy($postId){
 
 //        1- delete the post from database
-//        will be discussed later!!
+        $postToDelete = Post::find($postId);
+        $postToDelete -> delete();
 
 //        2- redirect to posts.index
         return to_route('posts.index');

@@ -22,7 +22,6 @@
         </thead>
         <tbody>
         @foreach($posts as $post)
-{{--            @dd($post)--}}
             <tr>
                 <th scope="row">{{$post->id}}</th>
                 <td>{{$post->title}}</td>
@@ -34,7 +33,7 @@
                     <form  style="display: inline" method="POST" action="{{route('posts.destroy' , $post->id)}}">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" href="#" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
                     </form>
                 </td>
             </tr>
