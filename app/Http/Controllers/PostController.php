@@ -19,7 +19,6 @@ class PostController extends Controller
 
     public function show(Post $post) //Type hinting
     {
-//        dd($post);
         // Select * from posts where id = $postId
 //        $singlePostFromDB = Post::findOrFail($postId); // Look At Routes, you can check that show method takes PostID
         // FindOrFail means , if you did not find the post of the id searched, return error not found 404 page
@@ -59,14 +58,15 @@ class PostController extends Controller
     }
 
 
-    public function edit(){
+    public function edit(Post $post){
         $users = User::all();
 
-        return view('posts.edit' , ['users' => $users]) ;
+        return view('posts.edit' , ['users' => $users , 'post' => $post]) ;
     }
 
-    public function update(){
 
+
+    public function update($postId){
 
 //        1- get the user data
 
@@ -74,14 +74,17 @@ class PostController extends Controller
         $description = \request()-> description;
         $postCreator = \request() -> post_creator;
 
-//        dd($data , $title , $description , $postCreator);
-
 
 //        2- update the user data in database
-        // will be done Later!!
+        $singlepostFromDB = Post::find($postId);
+
+        $singlepostFromDB -> update([
+            'title' => $title,
+            'description' => $description,
+        ]);
 
 //        3- redirect to posts.show
-        return to_route('posts.show', 1) ;
+        return to_route('posts.show', $postId) ;
     }
 
     public function destroy(){
